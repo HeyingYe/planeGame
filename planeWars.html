@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="css/style.css" type="text/css"  rel="stylesheet"/>
+		<script src="js/jquery-1.12.3.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/gameEngine.js"></script>
+		<script src="js/myPlane.js"></script>
+		<script src="js/bullet.js"></script>
+		<script src="js/enemy.js"></script>
+		<script src="js/AjaxBase.js"></script>
+		<script>
+			
+			onload = function(){
+				gameEngine.name = prompt('请输入玩家id号',"");
+				ajax({
+					"method":"GET",
+					"async":true,
+					"url":"./php/planeWar_reg.php",
+					"data":{
+						"name":gameEngine.name,
+					},
+					callback:function(str){
+							if(str == true){
+								alert("玩家id已存在，请重新输入ID号");
+								location.reload();
+							// 	gameEngine.name = prompt('请输入玩家id号',"");
+							}
+					 }
+				})
+				var oList = document.getElementById("list");
+				var aLi = oList.getElementsByTagName("li");
+				
+				for(var i=0; i<aLi.length; i++){
+					
+					aLi[i].onclick = function(){						
+						//1.移除菜单list
+						oList.parentNode.removeChild(oList);
+						//2.设置游戏等级，子弹频率
+						var fireInterval = this.value;
+						myPlane.fireInterval = fireInterval - 0;
+						// console.log(myPlane.fireInterval);
+						//3..开始游戏：
+						//游戏引擎：（导演）     对象（一个）
+						//控制游戏进程： 开始游戏 ，游戏过程，游戏结束
+						//加载游戏
+						//碰撞检测
+						//创建本方飞机，发射子弹
+						//创建敌机
+						//计算分数
+						 
+						//演员：
+						//我的飞机  对象(一个)
+						//子弹 类(构造函数)
+						//敌机 类(构造函数)
+ 
+						gameEngine.init().start();
+					}
+					
+				}				
+			}
+	
+		</script>
+	</head>
+	<body>
+		<div id="main_body" class="main">
+			<ul id="list">
+				<li value="1000">超级困难</li>
+				<li value="500">非常困难</li>
+				<li value="250">比较困难</li>
+				<li value="80">一般困难</li>
+			</ul>
+		</div>
+	</body>
+</html>
